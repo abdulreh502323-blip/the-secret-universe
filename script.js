@@ -1,233 +1,291 @@
-// Keep this URL unchanged: it is the Google Apps Script endpoint already configured for your Sheet.
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwETiOsy--lGgkXSAdeA4Q1esYBeQB_qVac7oPDAq3huGDpYt4nJ-w2vPPbcuQyCqMI/exec";
+
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwETiOsy--lGgkXSAdeA4Q1esYBeQB_qVac7oPDAq3huGDpYt4nJ-w2vPPbcuQyCqMI/exec";
 
 const scenes = [...document.querySelectorAll(".scene")];
-const progressBar = document.getElementById("progressBar");
-const progressLabel = document.getElementById("progressLabel");
-const floatLayer = document.getElementById("floatLayer");
+const progress = document.getElementById("progress");
 let currentScene = 0;
-let musicOn = false;
-let audioContext = null;
-let musicTimer = null;
-let submitted = false;
+let selectedMood = "";
+let starsCaught = 0;
+let riddleCorrect = false;
 let giftOpened = false;
+let letterOpened = false;
+let proposalAnswer = "";
+let audioContext = null;
+let musicPlaying = false;
 
-const progressNames = [
-  "A surprise is waiting", "Entering the dream world", "Mini-game 1 of 3",
-  "Mini-game 2 of 3", "Mini-game 3 of 3", "A little surprise",
-  "A message from the heart", "The final question", "Thank you"
-];
+const answers = {
+  mood: "",
+  stars: 0,
+  riddle: ""
+};
 
-function showScene(index) {
-  currentScene = index;
-  scenes.forEach((scene, i) => scene.classList.toggle("active", i === index));
-  progressBar.style.width = `${Math.max(8, (index + 1) / scenes.length * 100)}%`;
-  progressLabel.textContent = progressNames[index];
+// Small decorative starfield
+const starLayer = document.getElementById("stars");
+for (let i = 0; i < 24; i++) {
+  const star = document.createElement("span");
+  star.className = "bg-star";
+  star.textContent = i % 3 === 0 ? "✦" : "·";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.top = Math.random() * 100 + "%";
+  star.style.fontSize = (8 + Math.random() * 13) + "px";
+  star.style.animationDelay = (Math.random() * 3) + "s";
+  starLayer.appendChild(star);
+}
+
+function showScene(number) {
+  if (number < 0 || number >= scenes.length) return;
+
+  scenes[currentScene].classList.remove("active");
+  currentScene = number;
+  scenes[currentScene].classList.add("active");
+
+  progress.style.width = ((number + 1) / scenes.length * 100) + "%";
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-document.getElementById("beginBtn").addEventListener("click", () => {
+
+document.querySelectorAll(".next-scene").forEach(button => {
+  button.addEventListener("click", () => showScene(currentScene + 1));
+});
+
+// Intro
+document.getElementById("beginButton").addEventListener("click", () => {
   startMusic();
   showScene(1);
 });
-document.querySelectorAll("[data-next]").forEach(button => {
-  button.addEventListener("click", () => showScene(Number(button.dataset.next)));
-});
 
-// Three light-hearted riddles. Visitors can type an answer or reveal multiple-choice options.
-const riddleAnswers = {
-  1: ["smile", "a smile"],
-  2: ["friendship", "a friendship"],
-  3: ["connection", "a connection", "friendship"]
-};
-
-const riddleSuccess = {
-  1: "Correct! A smile is tiny, free, and surprisingly powerful. Case solved, detective! 😊",
-  2: "That's it! Friendship grows through little conversations, laughter and shared memories. 🤝",
-  3: "Exactly! A good connection is built with kindness, honesty and mutual happiness. 💗"
-};
-
-function checkRiddle(number, answer) {
-  const clean = answer.trim().toLowerCase().replace(/[.!?]/g, "");
-  const feedback = document.getElementById(`riddleFeedback${number}`);
-  if (!clean) {
-    feedback.textContent = "Type an answer or choose one of the options first. 🙂";
-    return;
-  }
-  if (riddleAnswers[number].includes(clean)) {
-    feedback.textContent = riddleSuccess[number];
-    document.getElementById(`riddleNext${number}`).classList.remove("hidden");
-    document.getElementById(`riddleOptions${number}`).classList.add("hidden");
-  } else {
-    feedback.textContent = "Not quite! Have another try, or tap “Need a hint?” 🧩";
-  }
-}
-
-document.querySelectorAll("[data-riddle-check]").forEach(button => {
+// Mood selection
+document.querySelectorAll(".mood-choice").forEach(button => {
   button.addEventListener("click", () => {
-    const number = button.dataset.riddleCheck;
-    checkRiddle(number, document.getElementById(`riddleAnswer${number}`).value);
+    document.querySelectorAll(".mood-choice").forEach(item => item.classList.remove("selected"));
+    button.classList.add("selected");
+    selectedMood = button.dataset.value;
+    answers.mood = selectedMood;
+    document.getElementById("moodFeedback").textContent = "Lovely choice! ✨";
+    document.getElementById("moodNext").disabled = false;
   });
 });
 
-document.querySelectorAll(".riddle-input").forEach(input => {
-  input.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-      const number = input.id.slice(-1);
-      checkRiddle(number, input.value);
+document.getElementById("moodNext").addEventListener("click", () => showScene(3));
+
+// Star-catching game
+document.querySelectorAll(".game-star").forEach(star => {
+  star.addEventListener("click", () => {
+    if (star.classList.contains("caught")) return;
+
+    star.classList.add("caught");
+    starsCaught++;
+    document.getElementById("starScore").textContent = starsCaught;
+    answers.stars = starsCaught;
+
+    if (starsCaught === 5) {
+      document.getElementById("gameMessage").textContent = "You found them all! ✨";
+      document.getElementById("starNext").disabled = false;
+      showToast("Stardust collected! ⭐");
+      celebrate(18);
     }
   });
 });
 
-document.querySelectorAll("[data-riddle-hint]").forEach(button => {
-  button.addEventListener("click", () => {
-    const number = button.dataset.riddleHint;
-    document.getElementById(`riddleHint${number}`).classList.remove("hidden");
-    button.textContent = "Hint revealed ✓";
-  });
-});
+document.getElementById("starNext").addEventListener("click", () => showScene(4));
 
-document.querySelectorAll("[data-choice-toggle]").forEach(button => {
+// Riddle
+document.querySelectorAll(".riddle-answer").forEach(button => {
   button.addEventListener("click", () => {
-    const number = button.dataset.choiceToggle;
-    const options = document.getElementById(`riddleOptions${number}`);
-    const opening = options.classList.contains("hidden");
-    options.classList.toggle("hidden");
-    button.setAttribute("aria-expanded", String(opening));
-    button.textContent = opening ? "Hide answer choices ▴" : "Show answer choices ▾";
-  });
-});
-
-document.querySelectorAll(".riddle-option").forEach(button => {
-  button.addEventListener("click", () => {
-    const number = button.dataset.riddle;
-    const answer = button.dataset.answer;
-    document.getElementById(`riddleAnswer${number}`).value = answer;
-    document.querySelectorAll(`.riddle-option[data-riddle="${number}"]`).forEach(option => option.classList.remove("selected"));
+    document.querySelectorAll(".riddle-answer").forEach(item => item.classList.remove("selected"));
     button.classList.add("selected");
-    checkRiddle(number, answer);
+
+    if (button.dataset.answer === "A smile") {
+      riddleCorrect = true;
+      answers.riddle = "A smile";
+      document.getElementById("riddleFeedback").textContent = "Exactly! A smile can brighten a day. 😊";
+      document.getElementById("riddleNext").disabled = false;
+    } else {
+      riddleCorrect = false;
+      document.getElementById("riddleFeedback").textContent = "Not quite! Have another little think. 💭";
+      document.getElementById("riddleNext").disabled = true;
+    }
   });
 });
 
-const colourMessages = {
-  pink: "Pink picked! Your day has officially been upgraded with extra sweetness. 🌸",
-  purple: "Lavender picked! A little mystery and a lot of imagination. 🪻",
-  peach: "Peach picked! Warm, sunny and full of good-energy vibes. 🍑",
-  mint: "Mint picked! Fresh, calm and quietly magical. 🍃"
-};
-document.querySelectorAll(".colour-choice").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".colour-choice").forEach(b => b.classList.remove("selected"));
-    button.classList.add("selected");
-    document.getElementById("colourFeedback").textContent = colourMessages[button.dataset.colour];
-    document.getElementById("colourNext").classList.remove("hidden");
-    sprinkle(5);
-  });
+document.getElementById("riddleNext").addEventListener("click", () => {
+  if (riddleCorrect) showScene(5);
 });
 
-document.getElementById("openGift").addEventListener("click", () => {
+// Gift reveal
+document.getElementById("giftButton").addEventListener("click", () => {
   if (giftOpened) return;
+
   giftOpened = true;
-  document.getElementById("giftIcon").textContent = "💝";
-  document.getElementById("giftIcon").classList.add("open");
-  document.getElementById("giftFeedback").textContent =
-    "Surprise! The best little gifts are thoughtful moments, kind words and reasons to smile. Hope this one made you smile. 💗";
-  document.getElementById("giftNext").classList.remove("hidden");
-  sprinkle(7);
+  document.getElementById("giftReveal").classList.add("show");
+  document.getElementById("giftNext").disabled = false;
+  document.getElementById("giftButton").style.transform = "scale(.85) rotate(8deg)";
+  showToast("Surprise unlocked! 💌");
+  celebrate(25);
 });
 
-// Soft original ambient notes using Web Audio. Starts only after the visitor presses the invitation.
-function playNote(freq, start, duration, volume = 0.012) {
-  const osc = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  osc.type = "sine";
-  osc.frequency.setValueAtTime(freq, start);
-  gain.gain.setValueAtTime(0.0001, start);
-  gain.gain.exponentialRampToValueAtTime(volume, start + 0.18);
-  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-  osc.connect(gain); gain.connect(audioContext.destination);
-  osc.start(start); osc.stop(start + duration + 0.04);
-}
-function startMusic() {
-  if (musicOn) return;
-  try {
-    audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
-    audioContext.resume();
-    musicOn = true;
-    const chords = [[261.63,329.63,392],[220,261.63,329.63],[174.61,220,261.63],[196,246.94,293.66]];
-    let bar = 0;
-    const playBar = () => {
-      if (!musicOn) return;
-      const now = audioContext.currentTime + 0.04;
-      chords[bar % chords.length].forEach((n, i) => playNote(n, now + i * .035, 3.1, .0055));
-      const melody = [523.25,587.33,659.25,587.33,493.88,440,392,440];
-      [0,1,2,3].forEach(i => playNote(melody[(bar * 2 + i) % melody.length], now + .35 + i * .68, .85, .009));
-      bar++;
-    };
-    playBar();
-    musicTimer = setInterval(playBar, 3300);
-    document.getElementById("musicToggle").textContent = "♫ Music on";
-    document.getElementById("musicToggle").setAttribute("aria-pressed","true");
-  } catch (err) {
-    document.getElementById("musicToggle").textContent = "♫ Music unavailable";
-  }
-}
-function stopMusic() {
-  musicOn = false;
-  clearInterval(musicTimer);
-  musicTimer = null;
-  if (audioContext) audioContext.suspend();
-  document.getElementById("musicToggle").textContent = "♫ Music off";
-  document.getElementById("musicToggle").setAttribute("aria-pressed","false");
-}
-document.getElementById("musicToggle").addEventListener("click", () => musicOn ? stopMusic() : startMusic());
+document.getElementById("giftNext").addEventListener("click", () => showScene(6));
 
-function sprinkle(count = 8) {
-  const symbols = ["✦","✧","♡","🌸","🦋","✿"];
-  count = Math.min(count, 10);
-  for (let i = 0; i < count; i++) {
-    const piece = document.createElement("span");
-    piece.className = "floaty";
-    piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-    piece.style.left = `${Math.random() * 100}%`;
-    piece.style.setProperty("--duration", `${4 + Math.random() * 4}s`);
-    piece.style.setProperty("--size", `${12 + Math.random() * 17}px`);
-    piece.style.setProperty("--drift", `${-90 + Math.random() * 180}px`);
-    floatLayer.appendChild(piece);
-    setTimeout(() => piece.remove(), 6500);
-  }
-}
-// No automatic particle loop: it keeps older phones cooler and the opening screen responsive.
+// Letter
+document.getElementById("openLetter").addEventListener("click", () => {
+  if (letterOpened) return;
 
-async function submitAnswer(answer) {
-  if (submitted) return;
-  const status = document.getElementById("submitStatus");
-  const message = document.getElementById("message").value.trim();
-  if (!SCRIPT_URL.startsWith("https://script.google.com/") || !SCRIPT_URL.endsWith("/exec")) {
-    status.textContent = "The response system URL needs checking. Please contact the website creator.";
-    return;
-  }
-  submitted = true;
-  status.textContent = "Sending your answer… ✨";
-  const payload = { answer, message, submittedAt: new Date().toLocaleString() };
+  letterOpened = true;
+  document.getElementById("letterEnvelope").classList.add("open");
+  document.getElementById("letterHint").textContent = "A little note, opened just for you. 💗";
+  document.getElementById("letterNext").disabled = false;
+  setTimeout(() => celebrate(12), 400);
+});
+
+document.getElementById("letterNext").addEventListener("click", () => showScene(7));
+
+// Proposal response
+document.getElementById("yesButton").addEventListener("click", () => {
+  proposalAnswer = "Yes";
+  sendResponse();
+});
+
+document.getElementById("noButton").addEventListener("click", () => {
+  proposalAnswer = "No";
+  sendResponse();
+});
+
+async function sendResponse() {
+  const yesButton = document.getElementById("yesButton");
+  const noButton = document.getElementById("noButton");
+  const feedback = document.getElementById("proposalFeedback");
+  const message = document.getElementById("personalMessage").value.trim();
+
+  yesButton.disabled = true;
+  noButton.disabled = true;
+  feedback.textContent = "Sending your response…";
+
+  const result = {
+    question1: proposalAnswer,
+    question2: message,
+    answer: proposalAnswer,
+    message: message,
+    mood: answers.mood,
+    quizAnswers: answers,
+    submittedAt: new Date().toLocaleString()
+  };
+
+  // Keep a local copy as a backup.
+  localStorage.setItem("universeResponse", JSON.stringify(result));
+
   try {
-    // no-cors is intentional for this Apps Script endpoint; browser cannot read its response.
-    await fetch(SCRIPT_URL, {
+    await fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(result)
     });
-    document.getElementById("endingIcon").textContent = answer.startsWith("YES") ? "💗" : "💌";
-    document.getElementById("endingTitle").textContent = answer.startsWith("YES") ? "A new little chapter." : "Thank you for being honest.";
-    document.getElementById("endingText").textContent = answer.startsWith("YES")
-      ? "You said yes! 💜 I'm happy to take this one step at a time, with kindness, honesty and respect. Thank you for giving this a chance."
-      : "Thank you for sharing your honest answer. I respect your choice and wish you happiness. Thank you for exploring this little universe.";
-    showScene(8);
-    sprinkle(8);
   } catch (error) {
-    submitted = false;
-    status.textContent = "There was a connection issue. Please try again.";
+    console.error("Response sending error:", error);
+  }
+
+  if (proposalAnswer === "Yes") {
+    document.getElementById("endingIcon").textContent = "💗";
+    document.getElementById("endingTitle").innerHTML = "A beautiful little<br><em>beginning.</em>";
+    document.getElementById("endingText").textContent =
+      "Thank you for giving this a chance. Let's take things one step at a time and make it something lovely.";
+    celebrate(55);
+  } else {
+    document.getElementById("endingIcon").textContent = "🌷";
+    document.getElementById("endingTitle").innerHTML = "Thank you for<br>being <em>honest.</em>";
+    document.getElementById("endingText").textContent =
+      "Your answer is respected. Thank you for exploring this little universe, and I wish you happiness.";
+    celebrate(12);
+  }
+
+  showScene(8);
+}
+
+document.getElementById("restartButton").addEventListener("click", () => {
+  window.location.reload();
+});
+
+// Music: a gentle original ambient melody made with Web Audio.
+function startMusic() {
+  if (musicPlaying) return;
+
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) {
+      showToast("Music isn't supported in this browser.");
+      return;
+    }
+
+    audioContext = audioContext || new AudioContextClass();
+    if (audioContext.state === "suspended") audioContext.resume();
+
+    musicPlaying = true;
+    document.querySelector("#musicButton span").textContent = "Music on";
+    playMelody();
+  } catch (error) {
+    console.log("Audio unavailable:", error);
   }
 }
-document.getElementById("yesBtn").addEventListener("click", () => submitAnswer("YES — I'd love to be your girlfriend 💜"));
-document.getElementById("noBtn").addEventListener("click", () => submitAnswer("NO — I don't feel the same"));
+
+let melodyTimer = null;
+let noteIndex = 0;
+
+function playMelody() {
+  if (!audioContext || !musicPlaying) return;
+
+  const notes = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880, 698.46];
+  const frequency = notes[noteIndex % notes.length];
+  noteIndex++;
+
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+
+  oscillator.type = "sine";
+  oscillator.frequency.value = frequency;
+  gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.045, audioContext.currentTime + 0.12);
+  gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 1.2);
+
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + 1.25);
+
+  melodyTimer = setTimeout(playMelody, 850);
+}
+
+function stopMusic() {
+  musicPlaying = false;
+  clearTimeout(melodyTimer);
+  document.querySelector("#musicButton span").textContent = "Music off";
+}
+
+document.getElementById("musicButton").addEventListener("click", () => {
+  if (musicPlaying) {
+    stopMusic();
+  } else {
+    startMusic();
+  }
+});
+
+// Small bursts only when a scene is completed: keeps mobile performance smooth.
+function celebrate(amount = 20) {
+  const symbols = ["✦", "✧", "♡", "·", "✿"];
+  for (let i = 0; i < amount; i++) {
+    const piece = document.createElement("span");
+    piece.className = "confetti";
+    piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    piece.style.left = Math.random() * 100 + "vw";
+    piece.style.color = ["#e7a4c7", "#b9a8ed", "#ffd1a9", "#d6b9df"][Math.floor(Math.random() * 4)];
+    piece.style.fontSize = (10 + Math.random() * 16) + "px";
+    piece.style.animationDuration = (2 + Math.random() * 2) + "s";
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 4200);
+  }
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2200);
+}

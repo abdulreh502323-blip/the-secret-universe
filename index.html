@@ -1,205 +1,229 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f8dff0">
-  <title>The Secret Universe ✨</title>
+  <meta name="theme-color" content="#fff0f7">
+  <title>A Little Universe ✦</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
-  <div id="floatLayer" aria-hidden="true"></div>
-  <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false">♫ Music off</button>
+  <div class="background-glow glow-one"></div>
+  <div class="background-glow glow-two"></div>
+  <div class="background-glow glow-three"></div>
+  <div class="star-layer" id="stars"></div>
 
-  <main class="shell">
-    <div class="topline"><span class="brand-mark">✦</span> THE SECRET UNIVERSE <span class="topline-dot">•</span> A LITTLE WORLD OF SURPRISES</div>
-    <div class="progress-wrap" aria-label="Journey progress"><div class="progress-track"><div id="progressBar"></div></div><span id="progressLabel">A surprise is waiting</span></div>
+  <header class="topbar">
+    <div class="brand"><span>✦</span> A LITTLE UNIVERSE</div>
+    <button class="music-button" id="musicButton">♫ <span>Music off</span></button>
+  </header>
 
-    <section class="scene active" id="scene-0">
-      <div class="hero-art envelope-art"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="envelope"><div class="envelope-flap"></div><span>♡</span></div><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✿</span></div>
-      <p class="eyebrow">A little mystery awaits</p>
-      <h1>Something lovely<br><em>is waiting for you.</em></h1>
-      <p class="intro">A tiny escape from the ordinary, made with a little creativity and a lot of care.</p>
-      <button class="primary" id="beginBtn">Open your invitation <span>↗</span></button>
-      <p class="tiny-note">Take your time. Enjoy the little surprises. ✨</p>
-    </section>
-
-    <section class="scene" id="scene-1">
-      <div class="scene-icon">☁️ <span>🦋</span></div>
-      <p class="eyebrow">Chapter one · A new little world</p>
-      <h2>Welcome to your<br><em>happy place.</em></h2>
-      <p class="body-copy">Imagine a place filled with soft colours, unexpected laughs, tiny adventures and moments worth remembering. That's the mood of this little universe.</p>
-      <div class="pill-row"><span>🌷 Kindness</span><span>✨ Surprises</span><span>🫧 Good vibes</span></div>
-      <button class="primary next" data-next="2">Let's explore <span>→</span></button>
-    </section>
-
-    <section class="scene" id="scene-2">
-      <div class="scene-icon">🕵️</div>
-      <p class="eyebrow">Riddle 1 of 3 · The smile mystery</p>
-      <h2>Detective, solve<br><em>the first clue.</em></h2>
-      <div class="riddle-card">
-        <p class="riddle-text">I cost absolutely nothing, but I can make someone's whole day brighter. What am I?</p>
-        <label class="riddle-label" for="riddleAnswer1">Type your answer</label>
-        <input class="riddle-input" id="riddleAnswer1" type="text" maxlength="60" placeholder="Your clever answer...">
-        <div class="riddle-actions">
-          <button class="primary riddle-check" data-riddle-check="1">Check answer</button>
-          <button class="secondary riddle-hint" data-riddle-hint="1">Need a hint?</button>
-        </div>
-        <p class="riddle-hint-text hidden" id="riddleHint1">Hint: It often appears on someone's face. 😊</p>
-        <p class="game-feedback" id="riddleFeedback1" aria-live="polite">You can also choose an answer below.</p>
-        <button class="choice-toggle" data-choice-toggle="1" aria-expanded="false">Show answer choices ▾</button>
-        <div class="riddle-options hidden" id="riddleOptions1">
-          <button class="riddle-option" data-riddle="1" data-answer="smile">A smile 😊</button>
-          <button class="riddle-option" data-riddle="1" data-answer="joke">A silly joke 🤭</button>
-          <button class="riddle-option" data-riddle="1" data-answer="sunshine">Sunshine ☀️</button>
-        </div>
-      </div>
-      <button class="primary next hidden" id="riddleNext1" data-next="3">Unlock the next clue <span>→</span></button>
-    </section>
-
-    <section class="scene" id="scene-3">
-      <div class="scene-icon">🧩</div>
-      <p class="eyebrow">Riddle 2 of 3 · The unusual journey</p>
-      <h2>One more mystery<br><em>to figure out.</em></h2>
-      <div class="riddle-card">
-        <p class="riddle-text">I can be shared by two people, get better with laughter, and become a lovely memory. What am I?</p>
-        <label class="riddle-label" for="riddleAnswer2">Type your answer</label>
-        <input class="riddle-input" id="riddleAnswer2" type="text" maxlength="60" placeholder="Take a guess...">
-        <div class="riddle-actions">
-          <button class="primary riddle-check" data-riddle-check="2">Check answer</button>
-          <button class="secondary riddle-hint" data-riddle-hint="2">Need a hint?</button>
-        </div>
-        <p class="riddle-hint-text hidden" id="riddleHint2">Hint: It can begin with “hello” and grow over time. 💬</p>
-        <p class="game-feedback" id="riddleFeedback2" aria-live="polite">Think of something people build together.</p>
-        <button class="choice-toggle" data-choice-toggle="2" aria-expanded="false">Show answer choices ▾</button>
-        <div class="riddle-options hidden" id="riddleOptions2">
-          <button class="riddle-option" data-riddle="2" data-answer="friendship">Friendship 🤝</button>
-          <button class="riddle-option" data-riddle="2" data-answer="sandwich">A sandwich 🥪</button>
-          <button class="riddle-option" data-riddle="2" data-answer="umbrella">An umbrella ☂️</button>
-        </div>
-      </div>
-      <button class="primary next hidden" id="riddleNext2" data-next="4">I'm ready for the final riddle <span>→</span></button>
-    </section>
-
-    <section class="scene" id="scene-4">
-      <div class="scene-icon">🔐</div>
-      <p class="eyebrow">Riddle 3 of 3 · The secret clue</p>
-      <h2>Final riddle,<br><em>think carefully!</em></h2>
-      <div class="riddle-card">
-        <p class="riddle-text">I am not a promise or a prize. I grow when two people are kind, honest and happy to spend time together. What am I?</p>
-        <label class="riddle-label" for="riddleAnswer3">Type your answer</label>
-        <input class="riddle-input" id="riddleAnswer3" type="text" maxlength="60" placeholder="What do you think?">
-        <div class="riddle-actions">
-          <button class="primary riddle-check" data-riddle-check="3">Check answer</button>
-          <button class="secondary riddle-hint" data-riddle-hint="3">Need a hint?</button>
-        </div>
-        <p class="riddle-hint-text hidden" id="riddleHint3">Hint: It can be a special connection between people. 💗</p>
-        <p class="game-feedback" id="riddleFeedback3" aria-live="polite">No timer, no pressure — have fun solving it.</p>
-        <button class="choice-toggle" data-choice-toggle="3" aria-expanded="false">Show answer choices ▾</button>
-        <div class="riddle-options hidden" id="riddleOptions3">
-          <button class="riddle-option" data-riddle="3" data-answer="connection">A connection 💞</button>
-          <button class="riddle-option" data-riddle="3" data-answer="homework">Homework 📚</button>
-          <button class="riddle-option" data-riddle="3" data-answer="wifi">Wi-Fi 📶</button>
-        </div>
-      </div>
-      <button class="primary next hidden" id="riddleNext3" data-next="5">See what the clues were about <span>→</span></button>
-    </section>
-
-    <section class="scene" id="scene-5">
-      <div class="scene-icon gift-icon" id="giftIcon">🎁</div>
-      <p class="eyebrow">Bonus level · A little surprise</p>
-      <h2>Something is<br><em>wrapped for you.</em></h2>
-      <p class="body-copy">Tap the gift. It isn't expensive or fancy — just a small reminder that thoughtful things can make an ordinary day feel special.</p>
-      <button class="gift-button" id="openGift" aria-label="Open the gift"><span>🎀</span><b>Tap to open</b></button>
-      <p class="game-feedback" id="giftFeedback" aria-live="polite">A little surprise is waiting inside.</p>
-      <button class="primary next hidden" id="giftNext" data-next="6">One more thing <span>→</span></button>
-    </section>
-
-    <section class="scene" id="scene-6">
-      <div class="letter-card">
-        <div class="letter-stamp">♡</div>
-        <p class="eyebrow">A little truth</p>
-        <h2>Some things are<br><em>better said honestly.</em></h2>
-        <p class="letter-text">I made this little website because I wanted to do something thoughtful and different. I enjoy talking with you, and I think you're a genuinely special person. I wanted to tell you how I feel in a way that might make you smile.</p>
-        <div class="letter-sign">Made with care <span>✿</span></div>
-      </div>
-      <button class="primary next" data-next="7">There's one last question <span>→</span></button>
-    </section>
-
-    
-<section class="scene proposal-scene" id="scene-7">
-  <div class="proposal-bloom">💗</div>
-
-  <p class="eyebrow">The final chapter · No pressure, just honesty</p>
-
-  <h1 class="proposal-title">
-    Will you be<br><em>my girlfriend?</em>
-  </h1>
-
-  <div class="proposal-card">
-    <p>
-      I really like you, and I'd love to take the next step with you.
-      Would you like to start a boyfriend-and-girlfriend relationship
-      built on trust, honesty, kindness and respect?
-    </p>
-
-    <p class="gentle-note">
-      Whatever your answer is, please feel comfortable being honest.
-      Your choice will be respected.
-    </p>
-
-    <!-- YouTube music player -->
-    <div class="proposal-music">
-      <p>🎵 A little song for this moment</p>
-
-      <iframe
-        src="https://www.youtube.com/embed/CMNXaBHlewg?playsinline=1"
-        title="Proposal song"
-        allow="encrypted-media; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-
-      <span>Tap play to listen 💗</span>
-    </div>
-
-    <div class="answer-buttons">
-      <button class="yes-button" id="yesBtn">
-        Yes, I'd love to 💜
-      </button>
-
-      <button class="no-button" id="noBtn">
-        No, I don't feel the same
-      </button>
-    </div>
-
-    <label class="message-label" for="message">
-      A little message (optional)
-    </label>
-
-    <textarea id="message" rows="3" maxlength="500"
-      placeholder="Write something here..."></textarea>
-
-    <p id="submitStatus" class="submit-status" aria-live="polite"></p>
+  <div class="progress-wrap">
+    <div class="progress-track"><div id="progress"></div></div>
   </div>
-</section>
 
+  <main>
+    <!-- SCENE 0: INTRO -->
+    <section class="scene active" id="scene0">
+      <div class="intro-layout">
+        <div class="eyebrow"><span class="sparkle">✧</span> A tiny adventure awaits <span class="sparkle">✧</span></div>
+        <h1 class="hero-title">Some stories<br>begin with a <em>spark.</em></h1>
+        <p class="hero-subtitle">And some little surprises deserve their own universe.</p>
 
-    <section class="scene" id="scene-8">
-      <div class="final-confetti" aria-hidden="true">✦ ✿ ♡ ✧ 🌸</div>
-      <div class="scene-icon" id="endingIcon">💌</div>
-      <p class="eyebrow">A moment to remember</p>
-      <h1 id="endingTitle">Thank you.</h1>
-      <p class="body-copy ending-copy" id="endingText">Thank you for sharing your honest answer. It means a lot that you took a moment to explore this little universe.</p>
-      <div class="ending-decoration">♡ <span>✦</span> ♡</div>
-      <p class="tiny-note">The best moments are the ones shared with kindness.</p>
+        <div class="cosmic-art">
+          <div class="orbit orbit-a"></div>
+          <div class="orbit orbit-b"></div>
+          <div class="orbit orbit-c"></div>
+          <div class="planet planet-back"></div>
+          <div class="planet planet-front"></div>
+          <div class="planet-core">✦</div>
+          <div class="orbit-dot dot-a">✧</div>
+          <div class="orbit-dot dot-b">✦</div>
+          <div class="orbit-dot dot-c">♡</div>
+          <div class="orbit-dot dot-d">✧</div>
+        </div>
+
+        <button class="primary-button" id="beginButton">Enter the universe <span>↗</span></button>
+        <p class="tiny-note">Best experienced with sound on ✨</p>
+      </div>
     </section>
 
-    <footer>Made with a little imagination <span>♡</span></footer>
+    <!-- SCENE 1: WELCOME -->
+    <section class="scene" id="scene1">
+      <div class="scene-content">
+        <div class="floating-icon">🪄</div>
+        <div class="eyebrow">CHAPTER 01 · THE BEGINNING</div>
+        <h2>Well, look who<br>found the <em>secret door.</em></h2>
+        <p class="body-copy">This isn't an ordinary webpage. It's a little adventure filled with unexpected things, tiny challenges and a surprise waiting at the end.</p>
+        <div class="glass-note">
+          <span class="note-icon">☁️</span>
+          <div><strong>One little rule</strong><p>Take your time. Explore everything. There is no rush.</p></div>
+        </div>
+        <button class="primary-button next-scene">Let's explore <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- SCENE 2: CHOOSE YOUR MOOD -->
+    <section class="scene" id="scene2">
+      <div class="scene-content">
+        <div class="eyebrow">CHAPTER 02 · A LITTLE PERSONALITY TEST</div>
+        <h2>First, let's discover<br>your <em>vibe.</em></h2>
+        <p class="body-copy">Pick the one that feels most like you. No overthinking!</p>
+        <div class="choice-grid">
+          <button class="choice-card mood-choice" data-value="Sunshine energy">
+            <span class="choice-emoji">☀️</span><strong>Sunshine energy</strong><small>Bright, warm and cheerful</small>
+          </button>
+          <button class="choice-card mood-choice" data-value="Moonlight magic">
+            <span class="choice-emoji">🌙</span><strong>Moonlight magic</strong><small>Quiet, dreamy and mysterious</small>
+          </button>
+          <button class="choice-card mood-choice" data-value="Chaos and sparkle">
+            <span class="choice-emoji">🦋</span><strong>Chaos & sparkle</strong><small>Unpredictable in the best way</small>
+          </button>
+          <button class="choice-card mood-choice" data-value="Soft heart">
+            <span class="choice-emoji">🌷</span><strong>Soft heart</strong><small>Kind, gentle and thoughtful</small>
+          </button>
+        </div>
+        <p class="feedback" id="moodFeedback">Choose one to continue ✨</p>
+        <button class="primary-button" id="moodNext" disabled>Continue <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- SCENE 3: STAR GAME -->
+    <section class="scene" id="scene3">
+      <div class="scene-content">
+        <div class="eyebrow">CHAPTER 03 · MINI GAME</div>
+        <h2>Catch the <em>stardust!</em></h2>
+        <p class="body-copy">Tap all five glowing stars before the little universe hides them.</p>
+        <div class="game-stats">
+          <span>⭐ Stars caught: <strong id="starScore">0</strong>/5</span>
+          <span id="gameMessage">Find the stars!</span>
+        </div>
+        <div class="star-game" id="starGame">
+          <button class="game-star star-one" aria-label="Catch star">✦</button>
+          <button class="game-star star-two" aria-label="Catch star">✦</button>
+          <button class="game-star star-three" aria-label="Catch star">✦</button>
+          <button class="game-star star-four" aria-label="Catch star">✦</button>
+          <button class="game-star star-five" aria-label="Catch star">✦</button>
+          <div class="game-center">✧</div>
+        </div>
+        <button class="primary-button" id="starNext" disabled>You've got the stardust! <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- SCENE 4: RIDDLE -->
+    <section class="scene" id="scene4">
+      <div class="scene-content">
+        <div class="eyebrow">CHAPTER 04 · THE LITTLE MYSTERY</div>
+        <div class="floating-icon">🔮</div>
+        <h2>A tiny riddle<br>for a <em>clever mind.</em></h2>
+        <div class="riddle-card">
+          <span class="riddle-number">THE RIDDLE</span>
+          <p>I'm not a person, but I can make someone's day brighter. I don't cost anything, yet I can mean a lot. What am I?</p>
+          <div class="riddle-options">
+            <button class="riddle-answer" data-answer="A smile">A smile 😊</button>
+            <button class="riddle-answer" data-answer="A diamond">A diamond 💎</button>
+            <button class="riddle-answer" data-answer="A clock">A clock 🕰️</button>
+          </div>
+          <p class="feedback" id="riddleFeedback">Choose your answer.</p>
+        </div>
+        <button class="primary-button" id="riddleNext" disabled>Unlock the next surprise <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- SCENE 5: SURPRISE BOX -->
+    <section class="scene" id="scene5">
+      <div class="scene-content">
+        <div class="eyebrow">CHAPTER 05 · A LITTLE SURPRISE</div>
+        <h2>Something is hiding<br>inside this <em>box.</em></h2>
+        <p class="body-copy">No guessing. No clues. Just tap and see.</p>
+        <button class="gift-box" id="giftButton" aria-label="Open surprise gift">
+          <span class="gift-bow">✧</span>
+          <span class="gift-lid"></span>
+          <span class="gift-body">🎁</span>
+          <span class="gift-glow"></span>
+        </button>
+        <div class="gift-reveal" id="giftReveal">
+          <div class="gift-reveal-icon">💌</div>
+          <h3>A little reminder</h3>
+          <p>Some people make ordinary moments feel a little more special. This surprise is for one of them.</p>
+        </div>
+        <button class="primary-button" id="giftNext" disabled>There's more… <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- SCENE 6: LETTER -->
+    <section class="scene" id="scene6">
+      <div class="scene-content">
+        <div class="eyebrow">CHAPTER 06 · A NOTE FROM THE HEART</div>
+        <h2>A few words,<br><em>just for you.</em></h2>
+        <div class="letter-envelope" id="letterEnvelope">
+          <div class="envelope-back"></div>
+          <div class="letter-paper">
+            <span class="letter-sparkle">✧</span>
+            <h3>Dear you,</h3>
+            <p>Sometimes, a person comes along and makes life feel a little brighter without even trying.</p>
+            <p>Maybe it's a conversation, a laugh, or simply the happiness of seeing them around.</p>
+            <p>This little website is my way of saying that you are appreciated. And there's one more thing I'd like to ask you…</p>
+            <p class="letter-sign">With a little courage ✨</p>
+          </div>
+          <div class="envelope-front"></div>
+          <div class="envelope-flap"></div>
+          <button class="envelope-seal" id="openLetter">♡</button>
+        </div>
+        <p class="feedback" id="letterHint">Tap the envelope to open your letter.</p>
+        <button class="primary-button" id="letterNext" disabled>Read the final surprise <span>→</span></button>
+      </div>
+    </section>
+
+    <!-- SCENE 7: PROPOSAL -->
+    <section class="scene" id="scene7">
+      <div class="proposal-background">
+        <div class="proposal-heart">♡</div>
+        <div class="proposal-spark spark-a">✦</div>
+        <div class="proposal-spark spark-b">✧</div>
+        <div class="proposal-spark spark-c">✦</div>
+      </div>
+      <div class="scene-content proposal-content">
+        <div class="eyebrow">THE LAST CHAPTER · THE QUESTION</div>
+        <h2>So… there's<br>one thing I want<br>to <em>ask you.</em></h2>
+        <div class="proposal-card">
+          <span class="proposal-small">A LITTLE QUESTION</span>
+          <h3>Would you like to be my girlfriend? 💗</h3>
+          <p>No pressure at all. I'd genuinely like to know how you feel.</p>
+          <div class="proposal-actions">
+            <button class="yes-button" id="yesButton">Yes, let's give it a chance 💗</button>
+            <button class="no-button" id="noButton">I'd rather not</button>
+          </div>
+          <p class="feedback" id="proposalFeedback"></p>
+        </div>
+        <div class="message-area">
+          <label for="personalMessage">Want to leave a little message? (Optional)</label>
+          <textarea id="personalMessage" placeholder="Write something here…"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 8: ENDING -->
+    <section class="scene" id="scene8">
+      <div class="ending-content">
+        <div class="ending-icon" id="endingIcon">💗</div>
+        <div class="eyebrow">THE END… OR A NEW BEGINNING?</div>
+        <h2 id="endingTitle">A little moment<br>to <em>remember.</em></h2>
+        <p id="endingText">Thank you for taking the time to explore this little universe.</p>
+        <div class="ending-stars">✦　✧　♡　✧　✦</div>
+        <p class="ending-footer">Made with a little creativity and a lot of courage.</p>
+        <button class="secondary-button" id="restartButton">Experience it again ↻</button>
+      </div>
+    </section>
   </main>
+
+  <footer class="footer">A LITTLE UNIVERSE <span>✦</span> MADE WITH CARE</footer>
+
+  <div class="toast" id="toast"></div>
   <script src="script.js"></script>
 </body>
 </html>
