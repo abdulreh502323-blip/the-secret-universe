@@ -1,706 +1,137 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Secret Universe ✨</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --purple: #a78bfa;
-  --pink: #f0a6d5;
-  --gold: #e8c47a;
-  --bg: #080510;
-}
-
-body {
-  min-height: 100vh;
-  background: radial-gradient(ellipse at top, #24123d, #0b0715 65%, #05030a);
-  color: #fff;
-  font-family: 'Poppins', sans-serif;
-  overflow-x: hidden;
-}
-
-#stars {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  animation: twinkle 3s infinite alternate;
-}
-
-@keyframes twinkle {
-  from { opacity: .15; transform: scale(.7); }
-  to { opacity: 1; transform: scale(1.3); }
-}
-
-.heart {
-  position: fixed;
-  bottom: -30px;
-  pointer-events: none;
-  animation: floatUp 8s linear forwards;
-  z-index: 1;
-  opacity: .6;
-}
-
-@keyframes floatUp {
-  to {
-    transform: translateY(-110vh) rotate(35deg);
-    opacity: 0;
-  }
-}
-
-main {
-  position: relative;
-  z-index: 2;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 18px;
-}
-
-.scene {
-  display: none;
-  width: 100%;
-  max-width: 680px;
-  text-align: center;
-  animation: appear 1s ease;
-}
-
-.scene.active {
-  display: block;
-}
-
-@keyframes appear {
-  from { opacity: 0; transform: translateY(25px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.eyebrow {
-  color: var(--gold);
-  letter-spacing: 5px;
-  font-size: 10px;
-  text-transform: uppercase;
-  margin-bottom: 22px;
-}
-
-h1, h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 500;
-}
-
-h1 {
-  font-size: clamp(48px, 10vw, 83px);
-  line-height: 1.05;
-  background: linear-gradient(120deg, #fff, #e7b8fa, #e8c47a);
-  -webkit-background-clip: text;
-  color: transparent;
-  margin-bottom: 22px;
-}
-
-h2 {
-  font-size: clamp(35px, 7vw, 55px);
-  margin-bottom: 20px;
-  color: #f3d8ff;
-}
-
-p {
-  color: #c8bfd5;
-  font-size: 14px;
-  line-height: 2;
-  max-width: 510px;
-  margin: 0 auto 25px;
-  font-weight: 300;
-}
-
-.glow {
-  font-size: 65px;
-  margin: 25px 0;
-  filter: drop-shadow(0 0 20px #c58bff);
-  animation: pulse 2.5s infinite;
-}
-
-@keyframes pulse {
-  50% { transform: scale(1.12); }
-}
-
-button {
-  border: 1px solid rgba(232,196,122,.65);
-  padding: 14px 29px;
-  border-radius: 50px;
-  background: linear-gradient(120deg, #8d58b8, #513075);
-  color: white;
-  font-family: 'Poppins', sans-serif;
-  font-size: 12px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  margin: 7px;
-  transition: .3s;
-  box-shadow: 0 0 25px #9c5dd433;
-}
-
-button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 30px #bb8aff88;
-}
-
-button.secondary {
-  background: transparent;
-  border-color: #75677e;
-}
-
-button.gold {
-  background: linear-gradient(120deg, #d9b56c, #95703a);
-  color: #160e1c;
-  border: none;
-}
-
-.card {
-  background: linear-gradient(145deg, #ffffff12, #ffffff05);
-  border: 1px solid #ffffff20;
-  border-radius: 25px;
-  padding: 32px 22px;
-  margin: 25px auto;
-  max-width: 500px;
-  box-shadow: 0 15px 60px #0005;
-  backdrop-filter: blur(15px);
-}
-
-.gift {
-  font-size: 100px;
-  cursor: pointer;
-  display: inline-block;
-  filter: drop-shadow(0 0 20px #d5a4ff);
-  transition: .4s;
-}
-
-.gift:hover {
-  transform: scale(1.15) rotate(-8deg);
-}
-
-.line {
-  height: 1px;
-  width: 75px;
-  background: var(--gold);
-  margin: 22px auto;
-}
-
-.choice {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 350px;
-  margin: 25px auto;
-}
-
-.choice button {
-  width: 100%;
-}
-
-textarea {
-  width: 100%;
-  max-width: 400px;
-  min-height: 90px;
-  padding: 15px;
-  border-radius: 15px;
-  border: 1px solid #a78bfa66;
-  background: #ffffff0b;
-  color: white;
-  font-family: inherit;
-  resize: vertical;
-  outline: none;
-  margin: 12px 0;
-}
-
-textarea::placeholder {
-  color: #a69aaf;
-}
-
-.small {
-  font-size: 11px;
-  color: #8f829e;
-  margin-top: 25px;
-}
-
-#musicButton {
-  position: fixed;
-  z-index: 10;
-  right: 15px;
-  top: 15px;
-  padding: 10px 15px;
-  font-size: 10px;
-  background: #21152e;
-}
-
-#status {
-  min-height: 30px;
-  font-size: 12px;
-  color: var(--gold);
-  margin-top: 15px;
-}
-
-
-.game-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  max-width: 470px;
-  margin: 24px auto;
-}
-.game-options button {
-  min-height: 68px;
-  margin: 0;
-  line-height: 1.6;
-}
-.game-result {
-  min-height: 58px;
-  color: var(--gold);
-  font-size: 13px;
-  line-height: 1.8;
-  margin: 18px auto 8px;
-}
-.progress-dots {
-  color: #b99bd6;
-  letter-spacing: 7px;
-  font-size: 12px;
-  margin: 20px 0;
-}
-@media(max-width:480px) {
-  .game-options { grid-template-columns: 1fr; }
-}
-
-@media(max-width:480px) {
-  .card { padding: 27px 17px; }
-  button { padding: 13px 22px; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8dff0">
+  <title>The Secret Universe ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-<div id="stars"></div>
-
-<button id="musicButton" onclick="toggleMusic()">
-  ♫ Music: OFF
-</button>
-
-<main>
-
-<!-- SCENE 1: INVITATION -->
-<section class="scene active" id="s1">
-  <div class="eyebrow">A little mystery awaits</div>
-  <div class="glow">✉️</div>
-  <h1>The Secret Universe</h1>
-  <p>
-    Somewhere between ordinary days and unexpected moments,
-    there is a little surprise waiting just for you.
-  </p>
-  <div class="line"></div>
-  <p>Are you curious enough to discover it?</p>
-  <button onclick="startExperience()">OPEN YOUR INVITATION ✨</button>
-  <div class="small">A little world. A little mystery. A special moment.</div>
-</section>
-
-<!-- SCENE 2: JOURNEY -->
-<section class="scene" id="s2">
-  <div class="eyebrow">Chapter One · The Beginning</div>
-  <div class="glow">🌌</div>
-  <h2>Not every beautiful story begins with a plan.</h2>
-  <p>
-    Sometimes, a simple moment becomes a memory.
-    Sometimes, a little smile makes an ordinary day special.
-    And sometimes, you find yourself wanting to create
-    something unforgettable.
-  </p>
-  <button onclick="showScene(3)">CONTINUE THE JOURNEY →</button>
-</section>
-
-
-<!-- SCENE 3: FUNNY GAME -->
-<section class="scene" id="s3">
-  <div class="eyebrow">Side Quest · Extremely Important Research</div>
-  <div class="glow">🕵️‍♀️</div>
-  <h2>First, a very serious personality test.</h2>
-  <p>Choose your natural reaction. Scientists are definitely watching. (Not really.)</p>
-  <div class="card">
-    <h2 style="font-size:30px">Your snack disappears. What do you do?</h2>
-    <div class="game-options">
-      <button onclick="moodPick('detective')">🕵️ Start an investigation</button>
-      <button onclick="moodPick('dramatic')">🎭 Give a dramatic speech</button>
-      <button onclick="moodPick('share')">🍟 Ask who wants to share</button>
-      <button onclick="moodPick('snack')">😌 Find another snack</button>
-    </div>
-    <div class="game-result" id="moodResult">Your result will appear here...</div>
-  </div>
-  <button id="moodNext" style="display:none" onclick="showScene(4)">NEXT MISSION →</button>
-  <div class="progress-dots">● ○ ○</div>
-</section>
-
-<!-- SCENE 4: MINI QUIZ -->
-<section class="scene" id="s4">
-  <div class="eyebrow">Side Quest · The Universe Quiz</div>
-  <div class="glow">🪐</div>
-  <h2>One tiny question...</h2>
-  <p>Choose wisely. Your imaginary space licence depends on it.</p>
-  <div class="card">
-    <h2 style="font-size:30px">If a penguin knocked on your door, you would...</h2>
-    <div class="game-options">
-      <button onclick="quizPick('tea')">☕ Invite it for tea</button>
-      <button onclick="quizPick('interview')">🎤 Ask for an interview</button>
-      <button onclick="quizPick('dance')">🕺 Challenge it to a dance</button>
-      <button onclick="quizPick('door')">🚪 Check its address</button>
-    </div>
-    <div class="game-result" id="quizResult">The penguin is waiting for your decision...</div>
-  </div>
-  <button id="quizNext" style="display:none" onclick="showScene(5)">WHAT HAPPENS NEXT? →</button>
-  <div class="progress-dots">● ● ○</div>
-</section>
-
-<!-- SCENE 5: UNEXPECTED PLOT TWIST -->
-<section class="scene" id="s5">
-  <div class="eyebrow">System Alert · Unexpected Development</div>
-  <div class="glow">🚨</div>
-  <h2>Wait... there's been a plot twist.</h2>
-  <div class="card">
-    <p>The universe has checked your game results... and officially confirms that you passed the Very Important Penguin & Snack Examination. 🏆</p>
-    <div class="line"></div>
-    <h2 style="font-size:32px">You unlocked: THE SECRET BONUS LEVEL.</h2>
-    <p>And no, this still isn't the big question. The suspense department is working overtime.</p>
-  </div>
-  <button onclick="showScene(6)">UNLOCK THE BONUS LEVEL 🎁</button>
-  <div class="small">Plot twist approved by absolutely no one. ✨</div>
-</section>
-
-<!-- SCENE 6: SURPRISE -->
-<section class="scene" id="s6">
-  <div class="eyebrow">Bonus Level · A Little Surprise</div>
-  <h2>Something is waiting for you...</h2>
-  <p>But first, you have to open your little surprise.</p>
-  <div class="card">
-    <div class="gift" onclick="openGift()">🎁</div>
-    <p id="giftText">Tap the gift to reveal what's inside.</p>
-  </div>
-  <button id="giftNext" style="display:none" onclick="showScene(7)">
-    ONE MORE THING →
-  </button>
-</section>
-
-<!-- SCENE 4: MESSAGE -->
-<section class="scene" id="s7">
-  <div class="eyebrow">Bonus Level · A Little Truth</div>
-  <div class="glow">🖤</div>
-  <h2>Something worth saying.</h2>
-  <div class="card">
-    <p>
-      You deserve kindness, genuine smiles, respect,
-      and moments that make you feel appreciated.
-    </p>
-    <div class="line"></div>
-    <p>
-      This little website took a bit of creativity,
-      a little courage, and a lot of thought.
-      And there's one more thing I wanted to tell you...
-    </p>
-  </div>
-  <button onclick="showScene(8)">REVEAL THE LAST SURPRISE 💜</button>
-</section>
-
-<!-- SCENE 5: PROPOSAL -->
-<section class="scene" id="s8">
-  <div class="eyebrow">The Final Chapter · The Question</div>
-  <div class="glow">💍</div>
-  <h1>One Last Question...</h1>
-  <div class="card">
-    <h2>Will You Be My Girlfriend? 💜</h2>
-    <p>
-      I really like you, and I'd love to take the next step with you.
-      I'm asking if you'd like us to start a boyfriend-and-girlfriend
-      relationship built on trust, honesty, respect, care and happiness.
-    </p>
-    <p>
-      So, would you like to be my girlfriend?
-    </p>
-
-    <div class="choice">
-      <button class="gold" onclick="submitAnswer('YES — I would love to be your girlfriend 💜')">
-        YES, I'D LOVE TO BE YOUR GIRLFRIEND 💜
-      </button>
-      <button class="secondary" onclick="submitAnswer('NO — I do not feel the same')">
-        NO, I DON'T FEEL THE SAME
-      </button>
-    </div>
-
-    <p>If you'd like, you can leave a little message too.</p>
-    <textarea id="message"
-      placeholder="Write something here (optional)..."></textarea>
-
-    <div id="status"></div>
-  </div>
-  <div class="small">Thank you for being part of this little universe ✨</div>
-</section>
-
-<!-- FINAL THANK YOU -->
-<section class="scene" id="s9">
-  <div class="eyebrow">A Moment To Remember</div>
-  <div class="glow">✨</div>
-  <h1>Thank You.</h1>
-  <p id="endingText">
-    Thank you for sharing your honest answer.
-    Whatever your choice, it deserves respect.
-  </p>
-  <div class="line"></div>
-  <p>Some moments are special simply because they happened.</p>
-</section>
-
-</main>
-
-<script>
-
-// IMPORTANT: PUT YOUR GOOGLE APPS SCRIPT URL HERE
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwETiOsy--lGgkXSAdeA4Q1esYBeQB_qVac7oPDAq3huGDpYt4nJ-w2vPPbcuQyCqMI/exec";
-
-// STAR BACKGROUND
-const stars = document.getElementById("stars");
-
-for(let i = 0; i < 100; i++) {
-  const star = document.createElement("div");
-  star.className = "star";
-  star.style.left = Math.random() * 100 + "%";
-  star.style.top = Math.random() * 100 + "%";
-  star.style.width = (Math.random() * 2 + 1) + "px";
-  star.style.height = star.style.width;
-  star.style.animationDelay = Math.random() * 3 + "s";
-  stars.appendChild(star);
-}
-
-// FLOATING HEARTS
-setInterval(() => {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.textContent = Math.random() > .5 ? "♡" : "✦";
-  heart.style.left = Math.random() * 100 + "%";
-  heart.style.fontSize = (12 + Math.random() * 20) + "px";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 8000);
-}, 1300);
-
-// SCENE NAVIGATION
-function showScene(number) {
-  document.querySelectorAll(".scene").forEach(scene => {
-    scene.classList.remove("active");
-  });
-
-  document.getElementById("s" + number).classList.add("active");
-  window.scrollTo({top: 0, behavior: "smooth"});
-}
-
-// ORIGINAL SOFT, SWEET BACKGROUND MUSIC
-// A gentle piano-like melody made with Web Audio (no external song needed).
-let audioContext = null;
-let musicOn = false;
-let musicTimer = null;
-let musicNodes = [];
-
-function addSoftNote(frequency, start, duration, volume, type = "sine") {
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-
-  oscillator.type = type;
-  oscillator.frequency.setValueAtTime(frequency, start);
-
-  gain.gain.setValueAtTime(0.0001, start);
-  gain.gain.exponentialRampToValueAtTime(volume, start + 0.12);
-  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-
-  oscillator.connect(gain);
-  gain.connect(audioContext.destination);
-
-  oscillator.start(start);
-  oscillator.stop(start + duration + 0.05);
-  musicNodes.push(oscillator);
-}
-
-function startMusic() {
-  if (musicOn) return;
-
-  if (!audioContext) {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  }
-
-  audioContext.resume();
-  musicOn = true;
-
-  // Gentle major-7th chords for a warm, dreamy sound.
-  const chords = [
-    [261.63, 329.63, 392.00, 493.88], // Cmaj7
-    [220.00, 261.63, 329.63, 392.00], // Am7
-    [174.61, 220.00, 261.63, 329.63], // Fmaj7
-    [196.00, 246.94, 293.66, 392.00]  // Gsus2
-  ];
-
-  // A small original melody, kept soft and slow.
-  const melody = [
-    [523.25, 587.33, 659.25, 587.33],
-    [493.88, 440.00, 392.00, 440.00],
-    [523.25, 493.88, 440.00, 392.00],
-    [440.00, 493.88, 587.33, 523.25]
-  ];
-
-  let bar = 0;
-
-  function playBar() {
-    if (!musicOn || !audioContext) return;
-
-    const now = audioContext.currentTime + 0.05;
-    const chord = chords[bar % chords.length];
-    const tune = melody[bar % melody.length];
-
-    // Soft sustained chord underneath.
-    chord.forEach((note, index) => {
-      addSoftNote(note, now + index * 0.025, 3.65, 0.008, "sine");
-    });
-
-    // Delicate bell-like notes, spaced out.
-    tune.forEach((note, index) => {
-      addSoftNote(note, now + 0.35 + index * 0.78, 0.95, 0.018, "sine");
-    });
-
-    bar++;
-  }
-
-  playBar();
-  musicTimer = setInterval(playBar, 3300);
-
-  document.getElementById("musicButton").textContent = "♫ Music: ON";
-}
-
-function stopMusic() {
-  musicOn = false;
-  clearInterval(musicTimer);
-  musicTimer = null;
-
-  musicNodes.forEach(node => {
-    try { node.stop(); } catch (e) {}
-  });
-
-  musicNodes = [];
-  document.getElementById("musicButton").textContent = "♫ Music: OFF";
-}
-
-function toggleMusic() {
-  if (musicOn) stopMusic();
-  else startMusic();
-}
-
-// BEGIN EXPERIENCE
-function startExperience() {
-  startMusic();
-  showScene(2);
-}
-
-// OPEN GIFT
-let giftOpened = false;
-
-function openGift() {
-  if(giftOpened) return;
-  giftOpened = true;
-
-  document.querySelector(".gift").textContent = "💝";
-
-  document.getElementById("giftText").textContent =
-    "Surprise! The best gifts aren't always wrapped. Sometimes, they're little moments of happiness, kindness and genuine smiles. ✨";
-
-  document.getElementById("giftNext").style.display = "inline-block";
-}
-
-
-// FUN MINI-GAMES: playful and just for laughs.
-function moodPick(choice) {
-  const results = {
-    detective: "🕵️ Case opened! You are now the Chief Snack Detective. Suspects: everyone.",
-    dramatic: "🎭 Oscar-worthy performance. The snack has been missing for 3 seconds and the world is changed forever.",
-    share: "🍟 A peaceful negotiator! The United Nations would like your contact details.",
-    snack: "😌 Calm energy detected. You have achieved legendary snack-recovery wisdom."
-  };
-  document.getElementById("moodResult").textContent = results[choice];
-  document.getElementById("moodNext").style.display = "inline-block";
-}
-
-function quizPick(choice) {
-  const results = {
-    tea: "☕ The penguin accepts. It says your hospitality is excellent and your biscuits are under review.",
-    interview: "🎤 Breaking news: the penguin has no comment, but its scarf looks very professional.",
-    dance: "🕺 The penguin wins the dance battle. It has been training on ice.",
-    door: "🚪 Sensible! The penguin checks its map. It was looking for the fish market."
-  };
-  document.getElementById("quizResult").textContent = results[choice];
-  document.getElementById("quizNext").style.display = "inline-block";
-}
-
-// SEND ANSWER TO GOOGLE SHEETS
-let submitted = false;
-
-async function submitAnswer(answer) {
-  if(submitted) return;
-
-  const status = document.getElementById("status");
-  const message = document.getElementById("message").value.trim();
-
-  if(!SCRIPT_URL.startsWith("https://script.google.com/")) {
-    status.textContent =
-      "The response system hasn't been configured yet.";
-    return;
-  }
-
-  submitted = true;
-  status.textContent = "Sending your answer... ✨";
-
-  const responseData = {
-    answer: answer,
-    message: message
-  };
-
-  try {
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify(responseData)
-    });
-
-    document.getElementById("endingText").textContent =
-      answer.startsWith("YES")
-      ? "You said YES! 💜 I'd be so happy to start this boyfriend-and-girlfriend relationship with you. Let's take it one step at a time, with honesty, care and respect."
-      : "Thank you for being honest with me. I respect your answer, and I genuinely wish you happiness. 💜";
-
-    showScene(9);
-
-  } catch(error) {
-    submitted = false;
-    status.textContent =
-      "Connection issue. Please try again.";
-  }
-}
-
-</script>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div id="floatLayer" aria-hidden="true"></div>
+  <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false">♫ Music off</button>
+
+  <main class="shell">
+    <div class="topline"><span class="brand-mark">✦</span> THE SECRET UNIVERSE <span class="topline-dot">•</span> A LITTLE WORLD OF SURPRISES</div>
+    <div class="progress-wrap" aria-label="Journey progress"><div class="progress-track"><div id="progressBar"></div></div><span id="progressLabel">A surprise is waiting</span></div>
+
+    <section class="scene active" id="scene-0">
+      <div class="hero-art envelope-art"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="envelope"><div class="envelope-flap"></div><span>♡</span></div><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✿</span></div>
+      <p class="eyebrow">A little mystery awaits</p>
+      <h1>Something lovely<br><em>is waiting for you.</em></h1>
+      <p class="intro">A tiny escape from the ordinary, made with a little creativity and a lot of care.</p>
+      <button class="primary" id="beginBtn">Open your invitation <span>↗</span></button>
+      <p class="tiny-note">Take your time. Enjoy the little surprises. ✨</p>
+    </section>
+
+    <section class="scene" id="scene-1">
+      <div class="scene-icon">☁️ <span>🦋</span></div>
+      <p class="eyebrow">Chapter one · A new little world</p>
+      <h2>Welcome to your<br><em>happy place.</em></h2>
+      <p class="body-copy">Imagine a place filled with soft colours, unexpected laughs, tiny adventures and moments worth remembering. That's the mood of this little universe.</p>
+      <div class="pill-row"><span>🌷 Kindness</span><span>✨ Surprises</span><span>🫧 Good vibes</span></div>
+      <button class="primary next" data-next="2">Let's explore <span>→</span></button>
+    </section>
+
+    <section class="scene" id="scene-2">
+      <div class="scene-icon">🧁</div>
+      <p class="eyebrow">Mini-game 1 of 3 · Important research</p>
+      <h2>The missing<br><em>cupcake case.</em></h2>
+      <p class="body-copy">A cupcake has mysteriously disappeared. What is your first move?</p>
+      <div class="choice-grid">
+        <button class="game-choice" data-game="cupcake" data-choice="detective">🕵️ Become a detective</button>
+        <button class="game-choice" data-game="cupcake" data-choice="suspect">👀 Question everyone</button>
+        <button class="game-choice" data-game="cupcake" data-choice="bake">🧁 Make another one</button>
+        <button class="game-choice" data-game="cupcake" data-choice="dramatic">🎭 Deliver a speech</button>
+      </div>
+      <p class="game-feedback" id="cupcakeFeedback" aria-live="polite">Choose your strategy to reveal your official title.</p>
+      <button class="primary next hidden" id="cupcakeNext" data-next="3">Next little adventure <span>→</span></button>
+    </section>
+
+    <section class="scene" id="scene-3">
+      <div class="scene-icon">🐧</div>
+      <p class="eyebrow">Mini-game 2 of 3 · Penguin protocol</p>
+      <h2>A penguin is<br><em>at your door.</em></h2>
+      <p class="body-copy">It has a tiny backpack and looks like it has travelled a long way. What do you do?</p>
+      <div class="choice-grid">
+        <button class="game-choice" data-game="penguin" data-choice="tea">☕ Invite it for tea</button>
+        <button class="game-choice" data-game="penguin" data-choice="dance">🕺 Challenge it to dance</button>
+        <button class="game-choice" data-game="penguin" data-choice="interview">🎤 Ask for its story</button>
+        <button class="game-choice" data-game="penguin" data-choice="map">🗺️ Check its map</button>
+      </div>
+      <p class="game-feedback" id="penguinFeedback" aria-live="polite">The penguin is patiently waiting for your decision.</p>
+      <button class="primary next hidden" id="penguinNext" data-next="4">Continue <span>→</span></button>
+    </section>
+
+    <section class="scene" id="scene-4">
+      <div class="scene-icon">🌈</div>
+      <p class="eyebrow">Mini-game 3 of 3 · Pick a little magic</p>
+      <h2>Choose your<br><em>happy colour.</em></h2>
+      <p class="body-copy">No wrong answers here. Which colour feels like your kind of day?</p>
+      <div class="colour-grid">
+        <button class="colour-choice pink" data-colour="pink">Pink<span>🌸</span></button>
+        <button class="colour-choice purple" data-colour="purple">Lavender<span>🪻</span></button>
+        <button class="colour-choice peach" data-colour="peach">Peach<span>🍑</span></button>
+        <button class="colour-choice mint" data-colour="mint">Mint<span>🍃</span></button>
+      </div>
+      <p class="game-feedback" id="colourFeedback" aria-live="polite">Pick one to unlock your little celebration.</p>
+      <button class="primary next hidden" id="colourNext" data-next="5">Reveal the surprise <span>→</span></button>
+    </section>
+
+    <section class="scene" id="scene-5">
+      <div class="scene-icon gift-icon" id="giftIcon">🎁</div>
+      <p class="eyebrow">Bonus level · A little surprise</p>
+      <h2>Something is<br><em>wrapped for you.</em></h2>
+      <p class="body-copy">Tap the gift. It isn't expensive or fancy — just a small reminder that thoughtful things can make an ordinary day feel special.</p>
+      <button class="gift-button" id="openGift" aria-label="Open the gift"><span>🎀</span><b>Tap to open</b></button>
+      <p class="game-feedback" id="giftFeedback" aria-live="polite">A little surprise is waiting inside.</p>
+      <button class="primary next hidden" id="giftNext" data-next="6">One more thing <span>→</span></button>
+    </section>
+
+    <section class="scene" id="scene-6">
+      <div class="letter-card">
+        <div class="letter-stamp">♡</div>
+        <p class="eyebrow">A little truth</p>
+        <h2>Some things are<br><em>better said honestly.</em></h2>
+        <p class="letter-text">I made this little website because I wanted to do something thoughtful and different. I enjoy talking with you, and I think you're a genuinely special person. I wanted to tell you how I feel in a way that might make you smile.</p>
+        <div class="letter-sign">Made with care <span>✿</span></div>
+      </div>
+      <button class="primary next" data-next="7">There's one last question <span>→</span></button>
+    </section>
+
+    <section class="scene proposal-scene" id="scene-7">
+      <div class="proposal-bloom">💗</div>
+      <p class="eyebrow">The final chapter · No pressure, just honesty</p>
+      <h1 class="proposal-title">Will you be<br><em>my girlfriend?</em></h1>
+      <div class="proposal-card">
+        <p>I really like you, and I'd love to take the next step with you. Would you like to start a boyfriend-and-girlfriend relationship built on trust, honesty, kindness and respect?</p>
+        <p class="gentle-note">Whatever your answer is, please feel comfortable being honest. Your choice will be respected.</p>
+        <div class="answer-buttons">
+          <button class="yes-button" id="yesBtn">Yes, I'd love to 💜</button>
+          <button class="no-button" id="noBtn">No, I don't feel the same</button>
+        </div>
+        <label class="message-label" for="message">A little message (optional)</label>
+        <textarea id="message" rows="3" maxlength="500" placeholder="Write something here..."></textarea>
+        <p id="submitStatus" class="submit-status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="scene" id="scene-8">
+      <div class="final-confetti" aria-hidden="true">✦ ✿ ♡ ✧ 🌸</div>
+      <div class="scene-icon" id="endingIcon">💌</div>
+      <p class="eyebrow">A moment to remember</p>
+      <h1 id="endingTitle">Thank you.</h1>
+      <p class="body-copy ending-copy" id="endingText">Thank you for sharing your honest answer. It means a lot that you took a moment to explore this little universe.</p>
+      <div class="ending-decoration">♡ <span>✦</span> ♡</div>
+      <p class="tiny-note">The best moments are the ones shared with kindness.</p>
+    </section>
+
+    <footer>Made with a little imagination <span>♡</span></footer>
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>
