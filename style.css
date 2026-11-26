@@ -73,3 +73,44 @@ footer{margin-top:auto;padding:15px 0 5px;color:#b29eb5;font-size:10px;letter-sp
 @media(prefers-reduced-motion:reduce){
   .ambient,.scene-icon,.envelope,.spark,.proposal-bloom,.gift-button span{animation:none!important}
 }
+
+/* Proposal YouTube music player */
+.proposal-music {
+  width: 100%;
+  max-width: 390px;
+  margin: 22px auto;
+  padding: 14px;
+  background: #fff5fa;
+  border: 1px solid #f1d9e9;
+  border-radius: 18px;
+}
+
+.proposal-music p {
+  color: #a16d98;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.proposal-music iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+  border-radius: 12px;
+}
+
+.proposal-music span {
+  display: block;
+  color: #a18ba7;
+  font-size: 11px;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .proposal-music {
+    padding: 10px;
+    margin: 17px auto;
+  }
+}

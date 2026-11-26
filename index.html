@@ -130,22 +130,63 @@
       <button class="primary next" data-next="7">There's one last question <span>→</span></button>
     </section>
 
-    <section class="scene proposal-scene" id="scene-7">
-      <div class="proposal-bloom">💗</div>
-      <p class="eyebrow">The final chapter · No pressure, just honesty</p>
-      <h1 class="proposal-title">Will you be<br><em>my girlfriend?</em></h1>
-      <div class="proposal-card">
-        <p>I really like you, and I'd love to take the next step with you. Would you like to start a boyfriend-and-girlfriend relationship built on trust, honesty, kindness and respect?</p>
-        <p class="gentle-note">Whatever your answer is, please feel comfortable being honest. Your choice will be respected.</p>
-        <div class="answer-buttons">
-          <button class="yes-button" id="yesBtn">Yes, I'd love to 💜</button>
-          <button class="no-button" id="noBtn">No, I don't feel the same</button>
-        </div>
-        <label class="message-label" for="message">A little message (optional)</label>
-        <textarea id="message" rows="3" maxlength="500" placeholder="Write something here..."></textarea>
-        <p id="submitStatus" class="submit-status" aria-live="polite"></p>
-      </div>
-    </section>
+    
+<section class="scene proposal-scene" id="scene-7">
+  <div class="proposal-bloom">💗</div>
+
+  <p class="eyebrow">The final chapter · No pressure, just honesty</p>
+
+  <h1 class="proposal-title">
+    Will you be<br><em>my girlfriend?</em>
+  </h1>
+
+  <div class="proposal-card">
+    <p>
+      I really like you, and I'd love to take the next step with you.
+      Would you like to start a boyfriend-and-girlfriend relationship
+      built on trust, honesty, kindness and respect?
+    </p>
+
+    <p class="gentle-note">
+      Whatever your answer is, please feel comfortable being honest.
+      Your choice will be respected.
+    </p>
+
+    <!-- YouTube music player -->
+    <div class="proposal-music">
+      <p>🎵 A little song for this moment</p>
+
+      <iframe
+        src="https://www.youtube.com/embed/CMNXaBHlewg?playsinline=1"
+        title="Proposal song"
+        allow="encrypted-media; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+
+      <span>Tap play to listen 💗</span>
+    </div>
+
+    <div class="answer-buttons">
+      <button class="yes-button" id="yesBtn">
+        Yes, I'd love to 💜
+      </button>
+
+      <button class="no-button" id="noBtn">
+        No, I don't feel the same
+      </button>
+    </div>
+
+    <label class="message-label" for="message">
+      A little message (optional)
+    </label>
+
+    <textarea id="message" rows="3" maxlength="500"
+      placeholder="Write something here..."></textarea>
+
+    <p id="submitStatus" class="submit-status" aria-live="polite"></p>
+  </div>
+</section>
+
 
     <section class="scene" id="scene-8">
       <div class="final-confetti" aria-hidden="true">✦ ✿ ♡ ✧ 🌸</div>
